@@ -1,21 +1,46 @@
-#include "PID.h"
+#ifndef PID_H
+#define PID_H
 
-using namespace std;
+class PID {
+public:
+  /*
+  * Errors
+  */
+  double p_error;
+  double i_error;
+  double d_error;
 
-/*
-* TODO: Complete the PID class.
-*/
+  /*
+  * Coefficients
+  */ 
+  double Kp;
+  double Ki;
+  double Kd;
 
-PID::PID() {}
+  /*
+  * Constructor
+  */
+  PID();
 
-PID::~PID() {}
+  /*
+  * Destructor.
+  */
+  virtual ~PID();
 
-void PID::Init(double Kp, double Ki, double Kd) {
-}
+  /*
+  * Initialize PID.
+  */
+  void Init(double Kp, double Ki, double Kd);
 
-void PID::UpdateError(double cte) {
-}
+  /*
+  * Update the PID error variables given cross track error.
+  */
+  void UpdateError(double cte);
 
-double PID::TotalError() {
-}
+  /*
+  * Calculate the total PID error.
+  */
+  double TotalError();
+};
 
+#endif /* PID_H */
