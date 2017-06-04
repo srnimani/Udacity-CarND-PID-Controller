@@ -1,46 +1,39 @@
-#ifndef PID_H
-#define PID_H
+#include "PID.h"
+#include <iostream>
+#include <limits>
 
-class PID {
-public:
-  /*
-  * Errors
-  */
-  double p_error;
-  double i_error;
-  double d_error;
+using namespace std;
 
-  /*
-  * Coefficients
-  */ 
-  double Kp;
-  double Ki;
-  double Kd;
+/*
+* TODO: Complete the PID class.
+*/
 
-  /*
-  * Constructor
-  */
-  PID();
+PID::PID() {}
 
-  /*
-  * Destructor.
-  */
-  virtual ~PID();
+PID::~PID() {}
 
-  /*
-  * Initialize PID.
-  */
-  void Init(double Kp, double Ki, double Kd);
+void PID::Init(double Kp, double Ki, double Kd)
+{
+    this->Kp = Kp;
+    this->Ki = Ki;
+    this->Kd = Kd;
+    
+    this->p_error = 0.0 ;
+    this->i_error = 0.0 ;
+    this->d_error = 0.0 ;
+}
 
-  /*
-  * Update the PID error variables given cross track error.
-  */
-  void UpdateError(double cte);
+void PID::UpdateError(double cte)
+{
+    d_error = cte - p_error; // p_error is previous cte
+    p_error = cte;
+    i_error += cte;
+    //cout << "p_error = \t" << p_error <<"\ti_error = \t" << i_error << "\td_error = \t" << d_error << endl;
+}
 
-  /*
-  * Calculate the total PID error.
-  */
-  double TotalError();
-};
-
-#endif /* PID_H */
+double PID::TotalError()
+{
+    double total_error = Kp * p_error + Kd * d_error + Ki * i_error ;
+    //cout << "Total Error : " << total_error << endl;
+    return total_error;
+}
